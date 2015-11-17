@@ -18,14 +18,15 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   echo 'while (!db.isMaster().ismaster) { sleep(100); }' | mongo
 
   # Configure user authentication.
-  if [[ -n "${MONGODB_CREATE_PWD}" && -n "${MONGODB_ADMIN_PWD}" ]]; then
-    echo "db.addUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"readWriteAnyDatabase\", \"userAdminAnyDatabase\", \"dbAdminAnyDatabase\"]})" | mongo admin
-    echo "db.addUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
-    echo "db.addUser({user: \"meteor\", userSource: \"meteor\", roles: [\"read\"]})" | mongo local
+  if [[ -n "${MONGODB_CREATE_PWD}" && -n "${MONGODB_ADMIN_PWD}" && -n "${MONGODB_OPLOGGER_PWD}" ]]; then
+    echo "db.createUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"root\"]})" | mongo admin
+    echo "db.createUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
+    echo "db.createUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [{role: \"read\", db: \"local\"}]})" | mongo admin
     echo "auth=true" >> /var/lib/mongodb/mongodb.conf
 
     export MONGODB_ADMIN_PWD=
     export MONGODB_CREATE_PWD=
+    export MONGODB_OPLOGGER_PWD=
   fi
 
   echo 'db.shutdownServer({force: true})' | mongo admin
