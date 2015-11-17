@@ -1,3 +1,3 @@
-FROM tozd/mongodb:2.4
+FROM tozd/mongodb:2.6
 
 COPY ./etc /etc
