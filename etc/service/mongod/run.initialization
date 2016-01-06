@@ -1,5 +1,5 @@
 # You can mount a volume (file) into this location to provide a script which sets environment variables.
-[ -f /etc/service/mongod/run.settings ] && source /etc/service/mongod/run.settings
+[ -f /etc/service/mongod/run.config ] && source /etc/service/mongod/run.config
 
 if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   touch /var/lib/mongodb/.replset_initialized
