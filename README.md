@@ -4,11 +4,11 @@ it with [tozd/meteor](https://github.com/tozd/docker-meteor) based images.
 Different branches/tags provide different MongoDB versions.
 
 The intended use of this image is that it is run alongside the `tozd/meteor` based image.
-You should volume mount the same `run.settings` configuration file into both Meteor app container
+You should volume mount the same `run.config` configuration file into both Meteor app container
 and the container from this image. This image automatically creates the database
 and accounts with provided passwords, and creates a simple replica set with oplog.
 
-Example of a `/etc/service/mongod/run.settings` file:
+Example of a `/etc/service/mongod/run.config` file:
 
 ```bash
 MONGODB_ADMIN_PWD='<pass>'
