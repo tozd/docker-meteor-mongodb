@@ -33,4 +33,4 @@ docker stop "${NAME}" || true
 sleep 1
 docker rm "${NAME}" || true
 sleep 1
-docker run --detach=true --restart=always --name "${NAME}" --volume "${CONFIG}:/etc/service/mongod/run.config" --volume "${MONGODB_LOG}:/var/log/mongodb" --volume "${MONGODB_DATA}:/var/lib/mongodb" tozd/meteor-mongodb
+docker run --detach=true --restart=always --name "${NAME}" --volume "${CONFIG}:/etc/service/mongod/run.config" --volume "${MONGODB_LOG}:/var/log/mongodb" --volume "${MONGODB_DATA}:/var/lib/mongodb" tozd/meteor-mongodb:2.6
