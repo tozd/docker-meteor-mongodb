@@ -1,4 +1,4 @@
-FROM tozd/mongodb:2.6
+FROM tozd/mongodb:3.4
 
 ENV MONGODB_ADMIN_PWD=
 ENV MONGODB_CREATE_PWD=
