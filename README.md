@@ -1,7 +1,7 @@
 Image extending [tozd/mongodb](https://github.com/tozd/docker-mongodb) image to use
 it with [tozd/meteor](https://github.com/tozd/docker-meteor) based images.
 
-Different branches/tags provide different MongoDB versions.
+Different Docker tags provide different MongoDB versions.
 
 The intended use of this image is that it is run alongside the `tozd/meteor` based image.
 You should volume mount the same `run.config` configuration file into both Meteor app container
