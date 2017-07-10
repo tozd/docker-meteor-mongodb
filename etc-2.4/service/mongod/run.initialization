@@ -1,0 +1,37 @@
+# You can mount a volume (file) into this location to provide a script which sets environment variables.
+[ -f /etc/service/mongod/run.config ] && source /etc/service/mongod/run.config
+
+if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
+  touch /var/lib/mongodb/.replset_initialized
+
+  echo "replSet=meteor" >> /var/lib/mongodb/mongodb.conf
+  echo "oplogSize=128" >> /var/lib/mongodb/mongodb.conf
+  echo "smallfiles=true" >> /var/lib/mongodb/mongodb.conf
+  echo "noprealloc=true" >> /var/lib/mongodb/mongodb.conf
+
+  # Temporarily start MongoDB to initialize the replica set.
+  chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1 2>&1 &
+  MONGODB_PID=$!
+  while true; do
+    { echo 'db.runCommand({ ping: 1 })' | mongo; } && break
+    sleep 1
+  done
+
+  echo 'rs.initiate({_id: "meteor", members: [{_id: 0, host: "127.0.0.1:27017"}]})' | mongo
+  echo 'while (!db.isMaster().ismaster) { sleep(100); }' | mongo
+
+  # Configure user authentication.
+  if [[ -n "${MONGODB_CREATE_PWD}" && -n "${MONGODB_ADMIN_PWD}" && -n "${MONGODB_OPLOGGER_PWD}" ]]; then
+    echo "db.addUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"readWriteAnyDatabase\", \"userAdminAnyDatabase\", \"dbAdminAnyDatabase\"]})" | mongo admin
+    echo "db.addUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
+    echo "db.addUser({user: \"meteor\", userSource: \"meteor\", roles: [\"read\"]})" | mongo local
+    echo "auth=true" >> /var/lib/mongodb/mongodb.conf
+
+    export MONGODB_ADMIN_PWD=
+    export MONGODB_CREATE_PWD=
+    export MONGODB_OPLOGGER_PWD=
+  fi
+
+  echo 'db.shutdownServer({force: true})' | mongo admin
+  wait ${MONGODB_PID}
+fi
