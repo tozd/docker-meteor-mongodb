@@ -1,5 +1,9 @@
-Image extending [tozd/mongodb](https://github.com/tozd/docker-mongodb) image to use
-it with [tozd/meteor](https://github.com/tozd/docker-meteor) based images.
+# tozd/meteor/mongodb
+
+<https://gitlab.com/tozd/docker/meteor-mongodb>
+
+Image extending [tozd/mongodb](https://gitlab.com/tozd/docker/mongodb) image to use
+it with [tozd/meteor](https://gitlab.com/tozd/docker/meteor) based images.
 
 Different Docker tags provide different MongoDB versions.
 
