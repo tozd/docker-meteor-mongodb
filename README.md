@@ -1,4 +1,4 @@
-# tozd/meteor/mongodb
+# tozd/meteor-mongodb
 
 <https://gitlab.com/tozd/docker/meteor-mongodb>
 
