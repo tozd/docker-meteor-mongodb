@@ -2,6 +2,13 @@
 
 <https://gitlab.com/tozd/docker/meteor-mongodb>
 
+Available as:
+
+* [`tozd/meteor-mongodb`](https://hub.docker.com/r/tozd/meteor-mongodb)
+* [`registry.gitlab.com/tozd/docker/meteor-mongodb`](https://gitlab.com/tozd/docker/meteor-mongodb/container_registry)
+
+## Description
+
 Image extending [tozd/mongodb](https://gitlab.com/tozd/docker/mongodb) image to use
 it with [tozd/meteor](https://gitlab.com/tozd/docker/meteor) based images.
 

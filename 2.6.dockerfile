@@ -1,4 +1,4 @@
-FROM tozd/mongodb:2.6
+FROM registry.gitlab.com/tozd/docker/mongodb:2.6
 
 ENV MONGODB_ADMIN_PWD=
 ENV MONGODB_CREATE_PWD=
