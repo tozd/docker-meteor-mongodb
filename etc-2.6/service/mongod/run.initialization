@@ -6,6 +6,8 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
 
   echo "replSet=meteor" >> /var/lib/mongodb/mongodb.conf
   echo "oplogSize=128" >> /var/lib/mongodb/mongodb.conf
+  echo "smallfiles=true" >> /var/lib/mongodb/mongodb.conf
+  echo "noprealloc=true" >> /var/lib/mongodb/mongodb.conf
 
   # Temporarily start MongoDB to initialize the replica set.
   chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1 2>&1 &
