@@ -4,4 +4,4 @@ ENV MONGODB_ADMIN_PWD=
 ENV MONGODB_CREATE_PWD=
 ENV MONGODB_OPLOGGER_PWD=
 
-COPY ./etc /etc
+COPY ./etc/service/mongod/run.initialization /etc/service/mongod/run.initialization
