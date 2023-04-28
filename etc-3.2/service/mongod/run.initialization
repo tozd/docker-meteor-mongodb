@@ -4,8 +4,9 @@
 if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   touch /var/lib/mongodb/.replset_initialized
 
-  echo "  preallocDataFiles: true" >> /var/lib/mongodb/mongodb.conf
-  echo "  smallFiles: true" >> /var/lib/mongodb/mongodb.conf
+  echo "  mmapv1:" >> /var/lib/mongodb/mongodb.conf
+  echo "    preallocDataFiles: true" >> /var/lib/mongodb/mongodb.conf
+  echo "    smallFiles: true" >> /var/lib/mongodb/mongodb.conf
   echo "replication:" >> /var/lib/mongodb/mongodb.conf
   echo "  oplogSizeMB: 128" >> /var/lib/mongodb/mongodb.conf
   echo "  replSetName: meteor" >> /var/lib/mongodb/mongodb.conf
