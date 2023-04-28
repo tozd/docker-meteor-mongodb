@@ -4,10 +4,12 @@
 if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   touch /var/lib/mongodb/.replset_initialized
 
-  echo "replSet=meteor" >> /var/lib/mongodb/mongodb.conf
-  echo "oplogSize=128" >> /var/lib/mongodb/mongodb.conf
-  echo "smallfiles=true" >> /var/lib/mongodb/mongodb.conf
-  echo "noprealloc=true" >> /var/lib/mongodb/mongodb.conf
+  echo "  mmapv1:" >> /var/lib/mongodb/mongodb.conf
+  echo "    preallocDataFiles: true" >> /var/lib/mongodb/mongodb.conf
+  echo "    smallFiles: true" >> /var/lib/mongodb/mongodb.conf
+  echo "replication:" >> /var/lib/mongodb/mongodb.conf
+  echo "  oplogSizeMB: 128" >> /var/lib/mongodb/mongodb.conf
+  echo "  replSetName: meteor" >> /var/lib/mongodb/mongodb.conf
 
   # Temporarily start MongoDB to initialize the replica set.
   chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1 2>&1 &
@@ -25,7 +27,8 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
     echo "db.createUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"root\"]})" | mongo admin
     echo "db.createUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
     echo "db.createUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [{role: \"read\", db: \"local\"}]})" | mongo admin
-    echo "auth=true" >> /var/lib/mongodb/mongodb.conf
+    echo "security:" >> /var/lib/mongodb/mongodb.conf
+    echo "  authorization: \"enabled\":" >> /var/lib/mongodb/mongodb.conf
 
     export MONGODB_ADMIN_PWD=
     export MONGODB_CREATE_PWD=
