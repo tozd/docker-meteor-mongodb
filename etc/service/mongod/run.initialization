@@ -27,7 +27,7 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
     openssl rand -base64 756 > /var/lib/mongodb/replicaSet.key
     chmod 400 /var/lib/mongodb/replicaSet.key
     echo "security:" >> /var/lib/mongodb/mongodb.conf
-    echo "  authorization: \"enabled\":" >> /var/lib/mongodb/mongodb.conf
+    echo "  authorization: \"enabled\"" >> /var/lib/mongodb/mongodb.conf
     echo "  keyFile: /var/lib/mongodb/replicaSet.key" >> /var/lib/mongodb/mongodb.conf
 
     export MONGODB_ADMIN_PWD=
