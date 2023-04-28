@@ -24,7 +24,7 @@ docker run -d --name test --rm -p 27017:27017 -v "$(pwd)/run.config:/etc/service
 trap cleanup_docker EXIT
 
 echo "Sleeping"
-sleep 10
+sleep 20
 
 echo "Testing"
 nc -z docker 27017
