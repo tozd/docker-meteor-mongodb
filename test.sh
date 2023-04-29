@@ -2,14 +2,20 @@
 
 set -e
 
-cleanup_docker() {
-  echo "Stopping Docker image"
-  docker stop test
+cleanup_docker=0
+cleanup_config=0
+cleanup() {
+  if [ "$cleanup_docker" -ne 0 ]; then
+    echo "Stopping Docker image"
+    docker stop test
+  fi
+
+  if [ "$cleanup_config" -ne 0 ]; then
+    rm -f run.config
+  fi
 }
 
-cleanup_config() {
-  rm -f run.config
-}
+trap cleanup EXIT
 
 echo "Preparing"
 apk add --no-cache mongodb-tools
@@ -17,11 +23,11 @@ apk add --no-cache mongodb-tools
 echo "MONGODB_ADMIN_PWD='test'" > run.config
 echo "MONGODB_CREATE_PWD='test'" >> run.config
 echo "MONGODB_OPLOGGER_PWD='test'" >> run.config
-trap cleanup_config EXIT
+cleanup_config=1
 
 echo "Running Docker image"
 docker run -d --name test --rm -p 27017:27017 -v "$(pwd)/run.config:/etc/service/mongod/run.config" "${CI_REGISTRY_IMAGE}:${TAG}"
-trap cleanup_docker EXIT
+cleanup_docker=1
 
 echo "Sleeping"
 sleep 20
