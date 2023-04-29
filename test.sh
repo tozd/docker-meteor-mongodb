@@ -28,4 +28,7 @@ sleep 20
 
 echo "Testing"
 nc -z docker 27017
-mongostat -u admin -p test --authenticationDatabase=admin -n 1 --host docker
+# New mongostat does not work with MongoDB 2.4. It fails to authenticate.
+if [ "$TAG" != "2.4" ]; then
+  mongostat -u admin -p test --authenticationDatabase=admin -n 1 --host docker
+fi
