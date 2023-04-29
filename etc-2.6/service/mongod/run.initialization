@@ -23,7 +23,7 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
 
   # Configure user authentication.
   if [[ -n "${MONGODB_CREATE_PWD}" && -n "${MONGODB_ADMIN_PWD}" && -n "${MONGODB_OPLOGGER_PWD}" ]]; then
-    echo 'db.runCommand({ createRole: "oplogger", privileges: [{ resource: {db: "local", collection: "system.replset"}, actions: ["find"] }], roles: [{role: "read", db: "local"}] })" | mongo admin
+    echo 'db.runCommand({ createRole: "oplogger", privileges: [{ resource: {db: "local", collection: "system.replset"}, actions: ["find"] }], roles: [{role: "read", db: "local"}] })' | mongo admin
     echo "db.createUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"root\"]})" | mongo admin
     echo "db.createUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
     echo "db.createUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [{role: \"read\", db: \"local\"}, \"oplogger\"]})" | mongo admin
