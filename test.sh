@@ -98,7 +98,7 @@ elif [ "$TAG" = "4.4" ]; then
   time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "registry.gitlab.com/tozd/docker/meteor:ubuntu-focal-${METEOR_VERSION}" meteor update --release "$METEOR_VERSION"
   time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "registry.gitlab.com/tozd/docker/meteor:ubuntu-focal-${METEOR_VERSION}" meteor npm install --save @babel/runtime
 elif [ "$TAG" = "5.0" ]; then
-  METEOR_VERSION="2.6.1"
+  METEOR_VERSION="2.8.1"
   echo "{}" > "test/package.json"
   time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "registry.gitlab.com/tozd/docker/meteor:ubuntu-focal-${METEOR_VERSION}" meteor update --release "$METEOR_VERSION"
   time docker run --rm --entrypoint '' --volume "$(pwd)/test:/app" --workdir /app --env NODE_TLS_REJECT_UNAUTHORIZED=0 "registry.gitlab.com/tozd/docker/meteor:ubuntu-focal-${METEOR_VERSION}" meteor npm install --save @babel/runtime
