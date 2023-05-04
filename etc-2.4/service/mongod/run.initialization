@@ -24,7 +24,7 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   if [[ -n "${MONGODB_CREATE_PWD}" && -n "${MONGODB_ADMIN_PWD}" && -n "${MONGODB_OPLOGGER_PWD}" ]]; then
     echo "db.addUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"readWriteAnyDatabase\", \"userAdminAnyDatabase\", \"dbAdminAnyDatabase\", \"clusterAdmin\"]})" | mongo admin
     echo "db.addUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
-    echo "db.addUser({user: \"meteor\", userSource: \"meteor\", roles: [\"read\"]})" | mongo local
+    echo "db.addUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [], otherDBRoles: {local: [\"read\"]}})" | mongo admin
     echo "auth=true" >> /var/lib/mongodb/mongodb.conf
 
     export MONGODB_ADMIN_PWD=
