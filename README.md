@@ -54,3 +54,8 @@ export MONGO_OPLOG_URL="mongodb://oplogger:${MONGODB_OPLOGGER_PWD}@mongodb/local
 ```
 
 The `export` lines are not necessary for this image, but are used by `tozd/meteor` based images.
+
+## GitHub mirror
+
+There is also a [read-only GitHub mirror available](https://github.com/tozd/docker-meteor-mongodb),
+if you need to fork the project there.
