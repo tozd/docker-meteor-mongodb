@@ -34,6 +34,7 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
     echo "db.createUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [{role: \"read\", db: \"local\"}]})" | "$MONGO" --quiet admin | regex2json "^\\s*(?P<mongo>.+?)\\s*$"
     openssl rand -base64 756 > /var/lib/mongodb/replicaSet.key
     chmod 400 /var/lib/mongodb/replicaSet.key
+    chown mongodb:mongodb /var/lib/mongodb/replicaSet.key
     echo "security:" >> /var/lib/mongodb/mongodb.conf
     echo "  authorization: \"enabled\"" >> /var/lib/mongodb/mongodb.conf
     echo "  keyFile: /var/lib/mongodb/replicaSet.key" >> /var/lib/mongodb/mongodb.conf
