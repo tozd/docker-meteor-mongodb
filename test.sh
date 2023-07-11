@@ -64,9 +64,11 @@ sleep 20
 
 echo "Testing"
 nc -z docker 27017
+echo "Success nc"
 # New mongostat does not work with MongoDB 2.4. It fails to authenticate.
 if [ "$TAG" != "2.4" ]; then
   mongostat -u admin -p test --authenticationDatabase=admin -n 1 --host docker
+  echo "Success mongostat"
 fi
 
 echo "Creating test app"
@@ -137,3 +139,4 @@ sleep 10
 
 echo "Testing"
 wget -T 30 -q -O - http://docker:3000 | grep -q '<title>SVG Clock Demo</title>'
+echo "Success"
