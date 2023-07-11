@@ -12,21 +12,21 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   echo "  replSetName: meteor" >> /var/lib/mongodb/mongodb.conf
 
   # Temporarily start MongoDB to initialize the replica set.
-  chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1 2>&1 &
+  chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1 &
   MONGODB_PID=$!
   while true; do
-    { echo 'db.runCommand({ ping: 1 })' | mongo; } && break
+    { echo 'db.runCommand({ ping: 1 })' | mongo --quiet >/dev/null; } && break
     sleep 1
   done
 
-  echo 'rs.initiate({_id: "meteor", members: [{_id: 0, host: "127.0.0.1:27017"}]})' | mongo
-  echo 'while (!db.isMaster().ismaster) { sleep(100); }' | mongo
+  echo 'rs.initiate({_id: "meteor", members: [{_id: 0, host: "127.0.0.1:27017"}]})' | mongo --quiet
+  echo 'while (!db.isMaster().ismaster) { sleep(100); }' | mongo --quiet
 
   # Configure user authentication.
   if [[ -n "${MONGODB_CREATE_PWD}" && -n "${MONGODB_ADMIN_PWD}" && -n "${MONGODB_OPLOGGER_PWD}" ]]; then
-    echo "db.createUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"root\"]})" | mongo admin
-    echo "db.createUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo meteor
-    echo "db.createUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [{role: \"read\", db: \"local\"}]})" | mongo admin
+    echo "db.createUser({user: \"admin\", pwd: \"${MONGODB_ADMIN_PWD}\", roles: [\"root\"]})" | mongo --quiet admin
+    echo "db.createUser({user: \"meteor\", pwd: \"${MONGODB_CREATE_PWD}\", roles: [\"readWrite\"]})" | mongo --quiet meteor
+    echo "db.createUser({user: \"oplogger\", pwd: \"${MONGODB_OPLOGGER_PWD}\", roles: [{role: \"read\", db: \"local\"}]})" | mongo --quiet admin
     echo "security:" >> /var/lib/mongodb/mongodb.conf
     echo "  authorization: \"enabled\"" >> /var/lib/mongodb/mongodb.conf
 
@@ -35,6 +35,6 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
     export MONGODB_OPLOGGER_PWD=
   fi
 
-  echo 'db.shutdownServer({force: true})' | mongo admin
+  echo 'db.shutdownServer({force: true})' | mongo --quiet admin
   wait ${MONGODB_PID}
 fi
