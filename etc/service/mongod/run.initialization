@@ -17,7 +17,7 @@ if [ ! -f /var/lib/mongodb/.replset_initialized ]; then
   echo "  replSetName: meteor" >> /var/lib/mongodb/mongodb.conf
 
   # Temporarily start MongoDB to initialize the replica set.
-  chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1
+  chpst -u mongodb:mongodb /usr/bin/mongod --config /var/lib/mongodb/mongodb.conf --bind_ip 127.0.0.1 &
   MONGODB_PID=$!
   while true; do
     { echo 'db.runCommand({ ping: 1 })' | "$MONGO" --quiet >/dev/null; } && break
