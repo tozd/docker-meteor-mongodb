@@ -9,7 +9,7 @@ Available as:
 
 ## Image inheritance
 
-[`tozd/base`](https://gitlab.com/tozd/docker/base) ← [`tozd/runit`](https://gitlab.com/tozd/docker/runit) ← [`tozd/mongodb`](https://gitlab.com/tozd/docker/mongodb) ← `tozd/meteor-mongodb`
+[`tozd/base`](https://gitlab.com/tozd/docker/base) ← [`tozd/dinit`](https://gitlab.com/tozd/docker/dinit) ← [`tozd/mongodb`](https://gitlab.com/tozd/docker/mongodb) ← `tozd/meteor-mongodb`
 
 ## Tags
 
