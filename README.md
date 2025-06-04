@@ -25,8 +25,6 @@ Available as:
 - `4.4`: MongoDB 4.4
 - `5.0`: MongoDB 5.0
 - `6.0`: MongoDB 6.0
-- `7.0`: MongoDB 7.0
-- `8.0`: MongoDB 8.0
 
 ## Variables
 
