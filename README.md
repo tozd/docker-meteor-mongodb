@@ -1,6 +1,6 @@
 # tozd/meteor-mongodb
 
-**DEPRECATED: Images are not maintained or updated anymore.**
+**DEPRECATED: Images are not maintained and not regularly updated anymore.**
 
 <https://gitlab.com/tozd/docker/meteor-mongodb>
 
